@@ -25,7 +25,7 @@ func main() {
 
 	for scanner.Scan() {
 		text := scanner.Text()
-		splits := strings.Split(text, "  ")
+		splits := strings.Split(text, "   ")
 
 		left := strings.TrimSpace(splits[0])
 		right := strings.TrimSpace(splits[1])
