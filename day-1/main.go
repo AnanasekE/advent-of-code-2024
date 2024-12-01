@@ -45,10 +45,19 @@ func main() {
 
 	}
 
+	diff := calculateDiff(leftArr, rightArr)
+	fmt.Printf("Diff: %s", fmt.Sprint(diff))
+
+	fmt.Println("")
+
+	similarity := calculateSimilarityScore(leftArr, rightArr)
+	fmt.Printf("Similarity: %s", fmt.Sprint(similarity))
+}
+
+func calculateDiff(leftArr []int, rightArr []int) (diff int) {
+
 	slices.Sort(leftArr)
 	slices.Sort(rightArr)
-
-	var diff int
 
 	for i := 0; i < len(leftArr); i++ {
 		left := leftArr[i]
@@ -57,7 +66,28 @@ func main() {
 		diffRaw := float64(left - right)
 		diff += int(math.Abs(diffRaw))
 	}
+	return diff
+}
 
-	log.Printf("Diff: %s", fmt.Sprint(diff))
+func calculateSimilarityScore(leftArr []int, rightArr []int) (simScore int) {
+
+	numberCount := make(map[int]int)
+
+	for i := 0; i < len(rightArr); i++ {
+		num := rightArr[i]
+		_, exists := numberCount[num]
+
+		if exists {
+			numberCount[num] += 1
+		} else {
+			numberCount[num] = 1
+		}
+	}
+
+	for _, val := range leftArr {
+		simScore += val * numberCount[val]
+	}
+
+	return simScore
 
 }
